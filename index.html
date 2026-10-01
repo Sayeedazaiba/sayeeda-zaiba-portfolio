@@ -139,12 +139,138 @@ nav .wrap{display:flex; align-items:center; justify-content:space-between; heigh
 .head p{color:var(--ink-soft); margin-top:.6rem; max-width:44ch;}
 
 /* ABOUT */
-.about{display:grid; grid-template-columns:.8fr 1.2fr; gap:2.5rem; align-items:center;}
-@media(max-width:800px){.about{grid-template-columns:1fr;}}
-.about .frame{border-radius:26px; overflow:hidden; max-width:300px; box-shadow:0 24px 50px -20px rgba(28,15,22,.35);}
-.about ul{margin-top:1.2rem; display:flex; flex-direction:column; gap:.7rem;}
-.about li{color:var(--ink-soft); font-size:1rem; padding-left:1.3rem; position:relative;}
-.about li::before{content:'—'; position:absolute; left:0; color:var(--mag);}
+
+.about{
+  display:grid;
+  grid-template-columns:.8fr 1.2fr;
+  gap:clamp(2.5rem,6vw,5rem);
+  align-items:center;
+}
+
+/* Image */
+.about .frame{
+  position:relative;
+  border-radius:26px;
+  overflow:hidden;
+  max-width:300px;
+  box-shadow:0 24px 50px -20px rgba(28,15,22,.35);
+  transition:transform .45s ease, box-shadow .45s ease;
+}
+
+.about .frame::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    135deg,
+    rgba(180,140,240,.12),
+    transparent 45%,
+    rgba(225,79,208,.14)
+  );
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .45s ease;
+}
+
+.about .frame:hover{
+  transform:translateY(-7px) rotate(-1deg);
+  box-shadow:0 32px 65px -22px rgba(28,15,22,.45);
+}
+
+.about .frame:hover::after{
+  opacity:1;
+}
+
+
+/* About content */
+.about ul{
+  margin-top:1.5rem;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+  list-style:none;
+}
+
+.about li{
+  color:var(--ink-soft);
+  font-size:1rem;
+  line-height:1.7;
+  padding-left:1.7rem;
+  position:relative;
+  transition:transform .25s ease, color .25s ease;
+}
+
+
+/* Gradient accent */
+.about li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.7em;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--lav),var(--mag));
+  box-shadow:0 0 0 4px rgba(180,140,240,.10);
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+
+
+/* Hover */
+.about li:hover{
+  color:#3f2634;
+  transform:translateX(5px);
+}
+
+.about li:hover::before{
+  transform:scale(1.25);
+  box-shadow:0 0 0 6px rgba(180,140,240,.12);
+}
+
+
+/* Strong text inside About */
+.about li strong{
+  color:var(--ink);
+  font-weight:700;
+}
+
+
+/* Mobile */
+@media(max-width:800px){
+
+  .about{
+    grid-template-columns:1fr;
+    gap:2rem;
+  }
+
+  .about .frame{
+    max-width:280px;
+    margin:0 auto;
+  }
+
+  .about ul{
+    margin-top:1.2rem;
+    gap:.85rem;
+  }
+
+  .about li{
+    font-size:.95rem;
+  }
+
+}
+
+
+/* Reduced motion */
+@media(prefers-reduced-motion:reduce){
+
+  .about .frame,
+  .about li,
+  .about li::before{
+    transition:none;
+    transform:none;
+  }
+
+}
 
 /* WORK */
 .work-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1.4rem;}
@@ -156,7 +282,7 @@ nav .wrap{display:flex; align-items:center; justify-content:space-between; heigh
 .proj-desc{margin-top:.5rem; color:var(--ink-soft); font-size:.92rem;}
 .tags{margin-top:.9rem; display:flex; gap:.4rem; flex-wrap:wrap;}
 .tag{font-size:.72rem; padding:.28rem .6rem; border-radius:100px; background:var(--pink); color:var(--ink-soft);}
-.proj-link{margin-top:1rem; display:inline-block; font-size:.85rem; font-weight:600; border-bottom:1px solid var(--ink);}
+.proj-link{margin-top:1rem; display:inline-block; font-size:.85rem; font-weight:600; gap:10px; border-bottom:1px solid var(--ink);}
 
 /* INTERNSHIPS - dark */
 .internships{background:var(--navy); color:#f3ecff;}
@@ -166,12 +292,123 @@ nav .wrap{display:flex; align-items:center; justify-content:space-between; heigh
 .role-row h3{font-family:var(--font-d); font-weight:700; font-size:clamp(1.2rem,2.6vw,1.6rem);}
 .role-row .org{color:var(--mag); font-size:.85rem; margin-top:.1rem; font-weight:600;}
 .role-row p{color:#b8a9d6; font-size:.9rem; margin-top:.4rem; max-width:60ch;}
+/* INTERNSHIP BULLETS + EFFECTS */
 
+.role-points{
+  margin-top:.8rem;
+  padding-left:1.15rem;
+  max-width:68ch;
+}
+
+.role-points li{
+  color:#b8a9d6;
+  font-size:.9rem;
+  line-height:1.65;
+  margin:.4rem 0;
+  padding-left:.25rem;
+  transition:color .25s ease, transform .25s ease;
+}
+
+.role-points li::marker{
+  color:var(--mag);
+  font-size:.75rem;
+}
+
+.role-points strong{
+  color:#eee5ff;
+  font-weight:600;
+}
+
+.role-row:hover .role-points li{
+  color:#d8cbed;
+}
+
+.role-points li:hover{
+  color:#fff;
+  transform:translateX(4px);
+}
 /* SKILLS */
 .skill-cat{margin-bottom:1.8rem;}
 .skill-cat h4{font-size:.8rem; letter-spacing:.06em; color:var(--mag); margin-bottom:.8rem; text-transform:uppercase;}
 .chips{display:flex; flex-wrap:wrap; gap:.6rem;}
 .chip{font-size:.86rem; padding:.5rem 1rem; border-radius:100px; background:#fff; color:var(--ink-soft); box-shadow:0 6px 14px -10px rgba(28,15,22,.4);}
+
+/* HOW I WORK */
+.work-style-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:0;
+  border-top:1px solid rgba(28,15,22,.12);
+}
+
+.work-style-item{
+  padding:2rem 2rem 2rem 0;
+  border-bottom:1px solid rgba(28,15,22,.12);
+}
+
+.work-style-item:nth-child(even){
+  padding-left:2rem;
+  border-left:1px solid rgba(28,15,22,.12);
+}
+
+.work-style-number{
+  font-family:var(--font-d);
+  font-size:.82rem;
+  font-weight:800;
+  letter-spacing:.1em;
+  background:linear-gradient(90deg,var(--lav),var(--mag));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.work-style-item p{
+  margin-top:.65rem;
+  font-family:var(--font-d);
+  font-size:1.25rem;
+  font-weight:800;
+  letter-spacing:-.01em;
+}
+
+.work-style-item p{
+  margin-top:.55rem;
+  max-width:48ch;
+  color:var(--ink-soft);
+  font-size:.9rem;
+  line-height:1.65;
+}
+
+.work-style-item:hover h3{
+  color:#a44a76;
+  transition:color .2s ease;
+}
+
+.work-style-number{
+  font-family:var(--font-d);
+  font-size:.82rem;
+  font-weight:800;
+  letter-spacing:.1em;
+  background:linear-gradient(90deg,var(--lav),var(--mag));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+@media(max-width:760px){
+  .work-style-grid{
+    grid-template-columns:1fr;
+  }
+
+  .work-style-item,
+  .work-style-item:nth-child(even){
+    padding:1.5rem 0;
+    border-left:none;
+  }
+
+  .work-style-item:last-child{
+    border-bottom:none;
+  }
+}
 
 /* ACHIEVEMENTS / CERTS */
 .two-col{display:grid; grid-template-columns:1fr 1fr; gap:3rem;}
@@ -200,13 +437,24 @@ footer{background:var(--navy); color:#b8a9d6; padding:2rem 0; text-align:center;
 .reveal{opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease;}
 .reveal.in{opacity:1; transform:translateY(0);}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1; transform:none; transition:none;}}
+.proj .mock{
+  overflow:hidden;
+  word-break:break-word;
+}
 </style>
 </head>
 <body>
 
 <nav>
   <div class="wrap">
-    <div class="navlinks"><a href="#about">About</a><a href="#work">Projects</a><a href="#experience">Internships</a><a href="#skills">Skills</a></div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#work">Projects</a>
+      <a href="#experience">Internships</a>
+      <a href="#skills">Skills</a>
+      <a href="#strengths">How I Work</a>
+      <a href="#achievements">Achievements & Certifications</a>
+    </div>
     <a class="navcta" href="#contact">Let's talk</a>
   </div>
 </nav>
@@ -257,10 +505,13 @@ footer{background:var(--navy); color:#b8a9d6; padding:2rem 0; text-align:center;
     <div class="reveal">
       <div class="head" style="margin-bottom:1.2rem;"><h2>About me</h2></div>
       <ul>
-        <li>Final-year B.E. Electronics &amp; Communication Engineering student at Ballari Institute of Technology and Management, maintaining a CGPA of 9.44</li>
-<li>Building AI-powered systems, backend services and full-stack applications focused on solving real-world problems</li>
-<li>Developing with Python, FastAPI, Flask, React and Supabase across AI and web technologies</li>
-<li>Seeking opportunities to contribute to AI, software engineering and technology-driven product development</li>
+        <li>Final-year engineering student with a 9.44 CGPA, focused on software development and building practical solutions.</li>
+<li>Build-first mindset: I turn ideas into working products — with projects across full-stack development, AI, embedded systems, and IoT.</li>
+<li>
+Through hackathons, internships, and personal projects, I’ve learned to
+  work with new technologies, solve problems under deadlines, and turn
+  what I learn into working applications.
+</li>
       </ul>
     </div>
   </div>
@@ -268,61 +519,294 @@ footer{background:var(--navy); color:#b8a9d6; padding:2rem 0; text-align:center;
 
 <section id="work">
   <div class="wrap">
-    <div class="head reveal"><h2>Featured Projects</h2><p>Projects where I engineered an idea into a working system.</p></div>
+    <div class="head reveal">
+      <div>
+        <h2>Featured Projects</h2>
+      </div>
+      <p>A selection of projects where I turn ideas into practical, working solutions.</p>
+    </div>
+
     <div class="work-grid">
+
+      <!-- FoundryOS -->
       <div class="proj reveal">
         <div class="mock">FoundryOS</div>
+
         <div class="proj-name">FoundryOS</div>
-        <p class="proj-desc">Built a multi-agent orchestration platform coordinating 6 specialised AI agents to generate structured business reports across 4+ domains, enabling end-to-end analysis and downloadable reports from user inputs.</p>
-        <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">LangChain</span></div>
-        <a class="proj-link" href="https://github.com/Sayeedazaiba/FoundryOS" target="_blank" rel="noopener">View on GitHub →</a>
+
+        <p class="proj-desc">
+          Built a multi-agent orchestration platform coordinating 6 specialised AI agents to generate structured business reports across 4+ business  domains, enabling end-to-end analysis and downloadable reports from user inputs.
+        </p>
+
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">LangChain</span>
+        </div>
+
+        <div class="proj-links">
+          <a class="proj-link"
+             href="https://github.com/Sayeedazaiba/FoundryOS"
+             target="_blank"
+             rel="noopener">
+            View on GitHub →
+          </a>
+<br>
+          <a class="proj-link"
+             href="https://github.com/user-attachments/assets/2923aa30-5201-46cb-95e9-c4f85dff3f94"
+             target="_blank"
+             rel="noopener">
+            Watch Demo →
+          </a>
+        </div>
       </div>
-      <div class="proj reveal">
-        <div class="mock">SafeTrip</div>
-        <div class="proj-name">SafeTrip</div>
-        <p class="proj-desc">Developed and deployed a full-stack travel safety platform with 6+ integrated features, implementing Supabase authentication and secure database management.</p>
-        <div class="tags"><span class="tag">React</span><span class="tag">Tailwind</span><span class="tag">Gemini API</span></div>
-        <a class="proj-link" href="https://github.com/Sayeedazaiba/SafeTrip" target="_blank" rel="noopener">View on GitHub →</a>
-      </div>
-      <div class="proj reveal">
-        <div class="mock">AgriBot</div>
-        <div class="proj-name">AgriBot</div>
-        <p class="proj-desc">Built a multimodal Flask based web application supporting text, voice, and image inputs for farmer queries through an accessible web interface.</p>
-        <div class="tags"><span class="tag">Flask</span><span class="tag">OpenCV</span></div>
-        <a class="proj-link" href="https://github.com/Sayeedazaiba/agribot" target="_blank" rel="noopener">View on GitHub →</a>
-      </div>
+
+
+      
+<!-- SafeTrip -->
+<div class="proj reveal">
+  <div class="mock">SafeTrip</div>
+
+  <div class="proj-name">SafeTrip</div>
+
+  <p class="proj-desc">
+    Developed and deployed a full-stack travel safety platform with 6+ integrated features, including secure authentication, emergency assistance, live location sharing, secure document storage, an AI itinerary generator, hotel and transport booking, route planning, and multilingual support
+  </p>
+
+  <div class="tags">
+    <span class="tag">React</span>
+    <span class="tag">Supabase</span>
+    <span class="tag">Gemini AI</span>
+  </div>
+
+  <div class="proj-links">
+    <a class="proj-link"
+       href="https://github.com/Sayeedazaiba/SafeTrip"
+       target="_blank"
+       rel="noopener">
+      View on GitHub →
+    </a>
+<br>
+    <a class="proj-link"
+       href="https://github.com/user-attachments/assets/49f81601-7135-49c8-9127-1f2281fd112b"
+       target="_blank"
+       rel="noopener">
+      Watch Demo →
+    </a>
+  </div>
+</div>
+
+
+      
+<!-- AgriBot -->
+<div class="proj reveal">
+  <div class="mock">AgriBot</div>
+
+  <div class="proj-name">AgriBot</div>
+
+  <p class="proj-desc">
+
+Built a multimodal Flask-based web application enabling farmers to submit agricultural queries through text, voice, and image inputs, with an architecture designed to support future offline functionality for improved accessibility in low-connectivity environments.
+
+  </p>
+
+  <div class="tags">
+    <span class="tag">Flask</span>
+    <span class="tag">OpenCV</span>
+    <span class="tag">Python</span>
+  </div>
+
+  <div class="proj-links">
+    <a class="proj-link"
+       href="https://github.com/Sayeedazaiba/AgriBot"
+       target="_blank"
+       rel="noopener">
+      View on GitHub →
+    </a>
+<br>
+    <a class="proj-link"
+       href="https://youtu.be/esj17ZA8Ep0?si=gV_nEBdSc0aYJvI9"
+       target="_blank"
+       rel="noopener">
+      Watch Demo →
+    </a>
+  </div>
+</div>
+
+
+           <!-- Smart Wellness Desk Assistant -->
       <div class="proj reveal">
         <div class="mock">Smart Wellness Desk Assistant</div>
+
         <div class="proj-name">Smart Wellness Desk Assistant</div>
-        <p class="proj-desc">Designed an embedded wellness monitoring system integrating 3 sensors for real-time workspace monitoring and break reminders, with live status updates displayed on an OLED screen.</p>
-        <div class="tags"><span class="tag">STM32</span><span class="tag">Embedded C</span></div>
-        <a class="proj-link" href="https://github.com/Sayeedazaiba/Smart-Wellness-Desk-Assistant" target="_blank" rel="noopener">View on GitHub →</a>
+
+        <p class="proj-desc">
+          Designed an embedded wellness monitoring system integrating three sensors for real-time workspace monitoring.
+Processed sensor data to track environmental conditions and trigger timely break reminders.
+Displayed live workspace status and wellness alerts through an OLED interface for immediate user feedback.
+        </p>
+
+        <div class="tags">
+          <span class="tag">STM32</span>
+          <span class="tag">Embedded C</span>
+          <span class="tag">Sensors</span>
+        </div>
+
+        <a class="proj-link"
+           href="https://github.com/Sayeedazaiba/Smart-Wellness-Desk-Assistant"
+           target="_blank"
+           rel="noopener">
+          View on GitHub →
+        </a>
       </div>
+
+
+      <!-- Student Performance Tracker -->
+      <div class="proj reveal">
+        <div class="mock">Student Performance Tracker</div>
+
+        <div class="proj-name">Student Performance Tracker</div>
+
+        <p class="proj-desc">
+          Built a machine learning-based student performance tracker using regression models to predict exam scores from academic and personal performance factors, with data preprocessing, model evaluation, and visualization.
+        </p>
+
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">Scikit-learn</span>
+        </div>
+
+        <div class="proj-links">
+          <a class="proj-link"
+             href="https://github.com/Sayeedazaiba/student-performance-tracker"
+             target="_blank"
+             rel="noopener">
+            View on GitHub →
+          </a>
+          <br>
+          <a class="proj-link"
+             href="https://github.com/user-attachments/assets/d07787f1-03af-46a4-bf87-db9afc54e6b0"
+             target="_blank"
+             rel="noopener">
+            Watch Demo →
+          </a>
+        </div>
+      </div>
+<!-- TaskForge -->
+<div class="proj reveal">
+  <div class="mock">TaskForge</div>
+
+  <div class="proj-name">TaskForge</div>
+
+  <p class="proj-desc">
+    Python-based student project management system built with Tkinter and Object-Oriented Programming, with project information managed through a simple desktop interface and stored using JSON.
+  </p>
+
+  <div class="tags">
+    <span class="tag">Python</span>
+    <span class="tag">Tkinter</span>
+    <span class="tag">OOP</span>
+    <span class="tag">JSON</span>
+  </div>
+
+  <div class="proj-links">
+    <a class="proj-link"
+       href="https://github.com/Sayeedazaiba/TaskForge"
+       target="_blank"
+       rel="noopener">
+      View on GitHub →
+    </a>
+<br>
+    <a class="proj-link"
+       href="https://github.com/user-attachments/assets/ba5ddf1c-31d3-406b-a08a-fe2b74081394"
+       target="_blank"
+       rel="noopener">
+      Watch Demo →
+    </a>
+  </div>
+</div>
     </div>
   </div>
 </section>
 
+ 
+
+
 <section id="experience" class="internships">
   <div class="wrap">
-    <div class="head reveal" style="color:#f3ecff;"><h2>Internships</h2></div>
+
+    <div class="head reveal" style="color:#f3ecff;">
+      <h2>Internships</h2>
+    </div>
+
+    <!-- SmartBridge -->
     <div class="role-row reveal">
       <div class="role-icon" style="background:#e14fd0;">◆</div>
+
       <div>
         <h3>Generative AI Intern</h3>
-        <div class="org">SmartBridge — NASSCOM Virtual Internship, Jul–Sep 2025</div>
-        <p>Completed 15+ hands-on Google Cloud labs and built 10+ Generative AI workflows using Gemini and Vertex AI for prompt engineering, content generation and model evaluation.</p>
+
+        <div class="org">
+          SmartBridge — NASSCOM Virtual Internship, Jul–Sep 2025
+        </div>
+
+        <ul class="role-points">
+          <li>
+            Worked with Generative AI, Google Cloud, Gemini, and Vertex AI through hands-on labs and development exercises.
+          </li>
+
+          <li>
+            Practised prompt engineering by designing and refining prompts for different tasks and use cases.
+          </li>
+
+          <li>
+            Explored AI application development and model evaluation, gaining experience with different AI workflows.
+          </li>
+
+          <li>
+            Completed 15+ Google Cloud labs and built 10+ Generative AI workflows, applying concepts through practical exercises.
+          </li>
+        </ul>
       </div>
     </div>
+
+
+    <!-- EZTS -->
     <div class="role-row reveal">
       <div class="role-icon" style="background:#8b6ef0;">◆</div>
+
       <div>
         <h3>Python Intern</h3>
-        <div class="org">EZTS Trainings and Technologies Pvt. Ltd, Sep 2024</div>
-        <p>Built TaskForge, a desktop task management app with 4+ features for scheduling, deadline tracking and local storage, using a modular object-oriented architecture.</p>
+
+        <div class="org">
+          EZTS Trainings and Technologies Pvt. Ltd, Sep 2024
+        </div>
+
+        <ul class="role-points">
+          <li>
+            Strengthened Python and Object-Oriented Programming through practical application development.
+          </li>
+
+          <li>
+            Built TaskForge, a desktop project management application using Python, Tkinter, OOP, JSON, and CRUD operations.
+          </li>
+
+          <li>
+            Gained experience with file handling, debugging, application structure, and problem-solving while developing the project.
+          </li>
+
+          <li>
+            Applied Python fundamentals to build and refine a working desktop application during the internship.
+          </li>
+        </ul>
       </div>
     </div>
+
   </div>
 </section>
+
+
 
 <section id="skills">
   <div class="wrap">
@@ -351,14 +835,75 @@ footer{background:var(--navy); color:#b8a9d6; padding:2rem 0; text-align:center;
     </div>
   </div>
 </section>
+<section id="strengths">
+  <div class="wrap">
+
+    <div class="head reveal">
+      <h2>How I Work</h2>
+      <p>How I approach projects, teamwork, and problem-solving.</p>
+    </div>
+
+    <div class="work-style-grid reveal">
+
+      <div class="work-style-item">
+        <div class="work-style-number">01</div>
+        <h3>Leadership</h3>
+        <p>
+          Led the SafeTrip team during a time-constrained hackathon, coordinating development while taking hands-on ownership of core implementation, problem-solving, and technical decisions.
+        </p>
+      </div>
+
+      <div class="work-style-item">
+        <div class="work-style-number">02</div>
+        <h3>Time Management</h3>
+        <p>
+          Work effectively under strict deadlines by prioritising core features, managing development time, and delivering functional prototypes within limited hackathon timeframes.
+        </p>
+      </div>
+
+      <div class="work-style-item">
+        <div class="work-style-number">03</div>
+        <h3>Problem Solving</h3>
+        <p>
+          Break real-world problems into practical, achievable solutions and focus on building working implementations rather than stopping at ideas.
+        </p>
+      </div>
+
+      <div class="work-style-item">
+        <div class="work-style-number">04</div>
+        <h3>Adaptability</h3>
+        <p>
+          Adapt quickly to new technologies and project requirements, with experience across AI, web development, backend systems, and embedded projects.
+        </p>
+      </div>
+
+      <div class="work-style-item">
+        <div class="work-style-number">05</div>
+        <h3>Team Collaboration</h3>
+        <p>
+          Work closely with teammates by contributing technically, sharing ideas, supporting implementation, and keeping projects moving toward a common goal.
+        </p>
+      </div>
+
+      <div class="work-style-item">
+        <div class="work-style-number">06</div>
+        <h3>Communication</h3>
+        <p>
+          Communicate ideas clearly, listen to different perspectives, and work toward practical decisions during project development and team discussions.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <section id="achievements">
   <div class="wrap two-col">
     <div class="reveal">
       <div class="head" style="margin-bottom:1.4rem;"><h2>Achievements</h2></div>
-      <div class="list-item"><strong>First Runner-Up — Presidency University Hackathon</strong>For SafeTrip, recognized for a unique real-world travel safety solution and strong implementation.</div>
-      <div class="list-item"><strong>Top 20 teams — Smart India Hackathon (Internal Round)</strong>For AgriBot.</div>
-      <div class="list-item"><strong>Shortlisted — "She Innovates" Bootcamp</strong>6-day bootcamp at Ballari Institute of Technology and Management.</div>
+      <div class="list-item"><strong>First Runner-Up — Presidency University Hackathon</strong>Secured First Runner-Up in a 30-hour hackathon, successfully delivering a working prototype within a highly time-constrained development environment.</div>
+      <div class="list-item"><strong>Top 20 teams — Smart India Hackathon (Internal Round)</strong>Selected among the Top 20 teams in the internal round, advancing through the institute-level selection process.</div>
+      <div class="list-item"><strong>Shortlisted — "She Innovates" Bootcamp</strong>Shortlisted as a student participant for a 6-day bootcamp at Ballari Institute of Technology and Management, providing an opportunity to gain practical experience through hands-on learning.</div>
     </div>
     <div class="reveal">
       <div class="head" style="margin-bottom:1.4rem;"><h2>Certifications</h2></div>
@@ -374,7 +919,7 @@ footer{background:var(--navy); color:#b8a9d6; padding:2rem 0; text-align:center;
 
 <section class="stats">
   <div class="wrap">
-    <div class="reveal"><div class="stat-num">4</div><div class="stat-label">Shipped projects</div></div>
+    <div class="reveal"><div class="stat-num">4+</div><div class="stat-label">Projects Built</div></div>
     <div class="reveal"><div class="stat-num">2</div><div class="stat-label">Internships</div></div>
     <div class="reveal"><div class="stat-num">6</div><div class="stat-label">Certifications</div></div>
     <div class="reveal"><div class="stat-num">9.44</div><div class="stat-label">CGPA</div></div>
